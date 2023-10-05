@@ -1,0 +1,57 @@
+Unable to find image 'quay.io/biocontainers/mulled-v2-fe8faa35dbf6dc65a0f7f5d4ea12e31a79f73e40:219b6c272b25e7e642ae3ff0bf0c5c81a5135ab4-0' locally
+219b6c272b25e7e642ae3ff0bf0c5c81a5135ab4-0: Pulling from biocontainers/mulled-v2-fe8faa35dbf6dc65a0f7f5d4ea12e31a79f73e40
+4ca545ee6d5d: Pulling fs layer
+b0dc45cd432d: Pulling fs layer
+9466b3513669: Pulling fs layer
+ddd482ea7b54: Pulling fs layer
+4d69f833b9d8: Pulling fs layer
+e7c454e5167d: Pulling fs layer
+e38092b005c0: Pulling fs layer
+f879b42dfe2b: Pulling fs layer
+f815f3d4557e: Pulling fs layer
+ddd482ea7b54: Waiting
+4d69f833b9d8: Waiting
+e7c454e5167d: Waiting
+e38092b005c0: Waiting
+f879b42dfe2b: Waiting
+f815f3d4557e: Waiting
+4ca545ee6d5d: Verifying Checksum
+4ca545ee6d5d: Download complete
+4ca545ee6d5d: Pull complete
+9466b3513669: Verifying Checksum
+9466b3513669: Download complete
+b0dc45cd432d: Verifying Checksum
+b0dc45cd432d: Download complete
+b0dc45cd432d: Pull complete
+9466b3513669: Pull complete
+ddd482ea7b54: Verifying Checksum
+ddd482ea7b54: Pull complete
+e7c454e5167d: Download complete
+4d69f833b9d8: Verifying Checksum
+4d69f833b9d8: Download complete
+e38092b005c0: Verifying Checksum
+e38092b005c0: Download complete
+4d69f833b9d8: Pull complete
+e7c454e5167d: Pull complete
+e38092b005c0: Pull complete
+f879b42dfe2b: Verifying Checksum
+f879b42dfe2b: Download complete
+f879b42dfe2b: Pull complete
+f815f3d4557e: Verifying Checksum
+f815f3d4557e: Download complete
+f815f3d4557e: Pull complete
+Digest: sha256:9548dc56bdc0b734cd3767f9eea0f9d0ea1c44b35ef5fb35b0f746807cacbeea
+Status: Downloaded newer image for quay.io/biocontainers/mulled-v2-fe8faa35dbf6dc65a0f7f5d4ea12e31a79f73e40:219b6c272b25e7e642ae3ff0bf0c5c81a5135ab4-0
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 3296 sequences (410943 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 0, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] skip orientation FR as there are not enough pairs
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 3296 reads in 0.801 CPU sec, 0.400 real sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa mem -t 2 ./bwa/genome WES_LL_T_1_test_1.merged.fastq.gz WES_LL_T_1_test_2.merged.fastq.gz
+[main] Real time: 1.482 sec; CPU: 0.927 sec
+[bam_sort_core] merging from 0 files and 2 in-memory blocks...

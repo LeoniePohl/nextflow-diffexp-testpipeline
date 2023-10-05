@@ -1,0 +1,4 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+Error response from daemon: Cannot kill container: nxf-XVwG7idQ1UdAGd3fHtCLX2LM: Container a5bcd2c474ce10e3d49d5decede97eb1726ea18c5d03ace62817233316ddb61a is not running
+Error response from daemon: Cannot kill container: nxf-XVwG7idQ1UdAGd3fHtCLX2LM: Container a5bcd2c474ce10e3d49d5decede97eb1726ea18c5d03ace62817233316ddb61a is not running
+Error response from daemon: Cannot kill container: nxf-XVwG7idQ1UdAGd3fHtCLX2LM: No such container: nxf-XVwG7idQ1UdAGd3fHtCLX2LM

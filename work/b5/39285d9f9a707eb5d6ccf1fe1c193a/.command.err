@@ -1,0 +1,10 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+[bwa_index] Pack FASTA... 0.22 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 10.80 seconds elapse.
+[bwa_index] Update BWT... 0.13 sec
+[bwa_index] Pack forward-only FASTA... 0.13 sec
+[bwa_index] Construct SA from BWT and Occ... 3.74 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index -p bwa/genome genome.fa
+[main] Real time: 20.232 sec; CPU: 15.033 sec

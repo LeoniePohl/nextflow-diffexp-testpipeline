@@ -1,0 +1,16 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+
+  /// MultiQC 🔍 | v1.14
+
+|           multiqc | MultiQC Version v1.16 now available!
+|           multiqc | Search path : /Users/leoniepohl/PycharmProjects/nf-testpipeline/work/69/6338668ae7fa2f2cd745c0291abfba
+|         searching | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 13/13  
+|    custom_content | nf-core-testpipeline-methods-description: Found 1 sample (html)
+|    custom_content | nf-core-testpipeline-summary: Found 1 sample (html)
+|    custom_content | software_versions: Found 1 sample (html)
+|            fastqc | Found 2 reports
+|           multiqc | Compressing plot data
+|           multiqc | Report      : multiqc_report.html
+|           multiqc | Data        : multiqc_data
+|           multiqc | Plots       : multiqc_plots
+|           multiqc | MultiQC complete

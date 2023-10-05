@@ -1,0 +1,3 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+nxf-iwnbGqtTIhdl4Z75sDJwkDcm
+Error response from daemon: Cannot kill container: nxf-iwnbGqtTIhdl4Z75sDJwkDcm: Container b19ec80f383e8f6026dfabcff82e4f713fd269c94edb6c85a774a4b05a68188e is not running

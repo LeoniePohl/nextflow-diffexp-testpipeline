@@ -1,0 +1,19 @@
+Unable to find image 'quay.io/biocontainers/bcftools:1.17--haef29d1_0' locally
+1.17--haef29d1_0: Pulling from biocontainers/bcftools
+7f6dfbbcebfa: Pulling fs layer
+1dbcab28ce46: Pulling fs layer
+44be9597f4fa: Pulling fs layer
+1dbcab28ce46: Verifying Checksum
+1dbcab28ce46: Download complete
+7f6dfbbcebfa: Verifying Checksum
+7f6dfbbcebfa: Download complete
+7f6dfbbcebfa: Pull complete
+1dbcab28ce46: Pull complete
+44be9597f4fa: Download complete
+44be9597f4fa: Pull complete
+Digest: sha256:b70f139dda44b262fabf2fa8f5e0742bb811a3608c805c4304cb9a4d51194c6e
+Status: Downloaded newer image for quay.io/biocontainers/bcftools:1.17--haef29d1_0
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+Note: none of --samples-file, --ploidy or --ploidy-file given, assuming all sites are diploid
+[mpileup] 1 samples in 1 input files
+[mpileup] maximum number of reads per input file set to -d 250

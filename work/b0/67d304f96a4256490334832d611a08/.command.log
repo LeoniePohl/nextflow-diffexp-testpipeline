@@ -1,0 +1,3 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+nxf-0jjhXIvmV0jwwWJjuC9LNYb1
+Error response from daemon: Cannot kill container: nxf-0jjhXIvmV0jwwWJjuC9LNYb1: Container f5952b1eeb65f1311f899ea0f2fb6318b05849a5a1056300125084264809ff02 is not running

@@ -1,0 +1,3 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	sample_paired_end_T1_1	/Users/leoniepohl/PycharmProjects/nf-testpipeline/work/34/5a9f47220ddc9261b932c70714615a/3/sample_paired_end_T1_1_fastqc.zip
+FastQC	all_sections	sample_paired_end_T1_2	/Users/leoniepohl/PycharmProjects/nf-testpipeline/work/34/5a9f47220ddc9261b932c70714615a/4/sample_paired_end_T1_2_fastqc.zip

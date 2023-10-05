@@ -1,0 +1,2 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+/Users/leoniepohl/PycharmProjects/nf-testpipeline/work/b7/f3ceae211d54fc92119b8b4e660b7c/.command.run: line 186:    11 Segmentation fault      touch $trace_file

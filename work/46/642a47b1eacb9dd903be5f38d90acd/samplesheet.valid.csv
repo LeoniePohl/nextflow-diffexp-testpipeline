@@ -1,0 +1,2 @@
+sample,single_end,fastq_1,fastq_2
+sample_paired_end_T1,False,reads/WES_LL_T_1_test_1.merged.fastq.gz,reads/WES_LL_T_1_test_2.merged.fastq.gz

@@ -1,0 +1,14 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 55442 sequences (16571632 bp)...
+[M::mem_pestat] # candidate unique pairs for (FF, FR, RF, RR): (0, 1, 0, 0)
+[M::mem_pestat] skip orientation FF as there are not enough pairs
+[M::mem_pestat] skip orientation FR as there are not enough pairs
+[M::mem_pestat] skip orientation RF as there are not enough pairs
+[M::mem_pestat] skip orientation RR as there are not enough pairs
+[M::mem_process_seqs] Processed 55442 reads in 36.424 CPU sec, 22.215 real sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa mem -t 2 ./bwa/genome sample1_R1.fastq.gz sample1_R2.fastq.gz
+[main] Real time: 26.471 sec; CPU: 38.110 sec
+[bam_sort_core] merging from 0 files and 2 in-memory blocks...
+/Users/leoniepohl/PycharmProjects/nf-testpipeline/work/60/daac7ff432159a420982e68dca43e6/.command.run: line 168: value: unbound variable

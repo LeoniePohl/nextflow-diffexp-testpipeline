@@ -1,0 +1,3 @@
+Sample	Top over-represented sequence	Sum of remaining over-represented sequences
+sample_paired_end_T1_1	0.48543689320388345	47.148058252427106
+sample_paired_end_T1_2	0.48543689320388345	49.39320388349506

@@ -1,0 +1,3 @@
+"NFCORE_TESTPIPELINE:TESTPIPELINE:BWA_MEM":
+    bwa: 0.7.17-r1188 
+    samtools: 1.16.1 

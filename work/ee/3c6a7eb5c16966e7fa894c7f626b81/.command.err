@@ -1,0 +1,53 @@
+Unable to find image 'quay.io/biocontainers/bwa:0.7.17--hed695b0_7' locally
+0.7.17--hed695b0_7: Pulling from biocontainers/bwa
+1dbcab28ce46: Pulling fs layer
+cfb1ba34637d: Pulling fs layer
+ace2d8a63dd5: Pulling fs layer
+75c080ef15eb: Pulling fs layer
+316957f8baaf: Pulling fs layer
+dbd31e1d863d: Pulling fs layer
+2f8531d5a6ec: Pulling fs layer
+2e178fd72baf: Pulling fs layer
+78f9edb1a534: Pulling fs layer
+75c080ef15eb: Waiting
+316957f8baaf: Waiting
+dbd31e1d863d: Waiting
+2f8531d5a6ec: Waiting
+2e178fd72baf: Waiting
+78f9edb1a534: Waiting
+1dbcab28ce46: Verifying Checksum
+1dbcab28ce46: Download complete
+ace2d8a63dd5: Verifying Checksum
+ace2d8a63dd5: Download complete
+1dbcab28ce46: Pull complete
+cfb1ba34637d: Download complete
+cfb1ba34637d: Pull complete
+ace2d8a63dd5: Pull complete
+75c080ef15eb: Verifying Checksum
+75c080ef15eb: Pull complete
+dbd31e1d863d: Download complete
+316957f8baaf: Verifying Checksum
+316957f8baaf: Download complete
+316957f8baaf: Pull complete
+dbd31e1d863d: Pull complete
+2f8531d5a6ec: Verifying Checksum
+2f8531d5a6ec: Download complete
+2f8531d5a6ec: Pull complete
+2e178fd72baf: Verifying Checksum
+2e178fd72baf: Download complete
+2e178fd72baf: Pull complete
+78f9edb1a534: Verifying Checksum
+78f9edb1a534: Download complete
+78f9edb1a534: Pull complete
+Digest: sha256:8ad381104d4f0770010579304fe972a5cfdd1541bef33234a53ff198717cb510
+Status: Downloaded newer image for quay.io/biocontainers/bwa:0.7.17--hed695b0_7
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+[bwa_index] Pack FASTA... 0.24 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 9.14 seconds elapse.
+[bwa_index] Update BWT... 0.13 sec
+[bwa_index] Pack forward-only FASTA... 0.12 sec
+[bwa_index] Construct SA from BWT and Occ... 3.84 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index -p bwa/genome genome.fa
+[main] Real time: 18.796 sec; CPU: 13.497 sec

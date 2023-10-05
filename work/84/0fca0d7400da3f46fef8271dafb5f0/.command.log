@@ -1,0 +1,11 @@
+WARNING: The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requested
+/Users/leoniepohl/PycharmProjects/nf-testpipeline/work/84/0fca0d7400da3f46fef8271dafb5f0/.command.run: line 31:    73 Segmentation fault      ps -e -o pid= -o ppid=
+[bwa_index] Pack FASTA... 0.24 sec
+[bwa_index] Construct BWT for the packed sequence...
+[bwa_index] 10.46 seconds elapse.
+[bwa_index] Update BWT... 0.13 sec
+[bwa_index] Pack forward-only FASTA... 0.13 sec
+[bwa_index] Construct SA from BWT and Occ... 4.00 sec
+[main] Version: 0.7.17-r1188
+[main] CMD: bwa index -p bwa/genome genome.fa
+[main] Real time: 19.676 sec; CPU: 14.982 sec

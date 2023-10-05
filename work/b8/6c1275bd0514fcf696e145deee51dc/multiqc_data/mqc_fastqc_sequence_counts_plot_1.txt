@@ -1,0 +1,3 @@
+Sample	Unique Reads	Duplicate Reads
+sample_paired_end_T1_1	1182.0	466.0
+sample_paired_end_T1_2	1156.0	492.0
