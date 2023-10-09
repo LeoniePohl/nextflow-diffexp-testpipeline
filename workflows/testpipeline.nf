@@ -15,7 +15,21 @@ log.info logo + paramsSummaryLog(workflow) + citation
 
 WorkflowTestpipeline.initialise(params, log)
 
-ch_genome_fasta = Channel.fromPath(params.fasta).map { it -> [[id:it[0].simpleName], it] }.collect()
+ch_genome_fasta = Channel.fromPath(params.fasta) //.map { it -> [[id:it[0].simpleName], it] }.collect()
+
+ch_genome_gtf = Channel.fromPath(params.gtf)//.map { it -> [[id:it[0].simpleName], it] }.collect()
+
+
+
+/*
+ch_genome_splicesites = Channel.fromPath("/Users/leoniepohl/Desktop/results2/hisat2/genes.splice_sites.txt").map { it -> [[id:it[0].simpleName], it] }.collect()
+ch_test_fasta = Channel.fromPath(params.wfasta).map { it -> [[id:it[0].simpleName], it] }.collect()
+ch_test_genome = Channel.fromPath(params.wgtf).map { it -> [[id:it[0].simpleName], it] }.collect()
+ch_test_splice = Channel.fromPath(params.sgtf).map { it -> [[id:it[0].simpleName], it] }.collect() */
+
+
+
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -54,6 +68,8 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoft
 include { BWA_MEM                     } from '../modules/nf-core/bwa/mem/main'
 include { BWA_INDEX                   } from '../modules/nf-core/bwa/index/main'
 include { HISAT2_ALIGN                } from '../modules/nf-core/hisat2/align/main'
+include { HISAT2_BUILD                } from '../modules/nf-core/hisat2/build/main'
+include { HISAT2_EXTRACTSPLICESITES } from '../modules/nf-core/hisat2/extractsplicesites/main'
 
 
 //
@@ -91,10 +107,44 @@ workflow TESTPIPELINE {
     // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
     // ! There is currently no tooling to help you write a sample sheet schema
 
+    ch_splicesites = HISAT2_EXTRACTSPLICESITES ( ch_genome_gtf.map { [ [:], it ] } ).txt.map { it[1] }
+     //ch_genome_gtf
+    //ch_genome_splicesites = HISAT2_EXTRACTSPLICESITES.out.splice_sites
+
+
+     ch_hisat2_index = HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } ).index.map { it[1] }
+
+
+     HISAT2_ALIGN(
+        INPUT_CHECK.out.reads,
+        ch_hisat2_index,
+        ch_splicesites.map { [ [:], it ] }
+   )
+
+
+/*
+
+
+    HISAT2_BUILD(
+        ch_genome_fasta,
+        ch_genome_gtf,
+        ch_genome_splicesites
+   )
+    ch_index = HISAT2_BUILD.out.index //.map { it -> [[id:it[0].simpleName], it] }.collect()
+
+    HISAT2_ALIGN(
+        INPUT_CHECK.out.reads,
+        ch_index,
+        ch_genome_splicesites
+   )
+
+*/
+
+
     //
     // MODULE: Run FastQC
     //
-    FASTQC (
+    /*FASTQC (
         INPUT_CHECK.out.reads
     )
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
@@ -103,68 +153,14 @@ workflow TESTPIPELINE {
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    //
-    // MODULE: MultiQC
-    //
-    workflow_summary    = WorkflowTestpipeline.paramsSummaryMultiqc(workflow, summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
-
-    methods_description    = WorkflowTestpipeline.methodsDescriptionText(workflow, ch_multiqc_custom_methods_description, params)
-    ch_methods_description = Channel.value(methods_description)
-
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-
-    MULTIQC (
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        ch_multiqc_custom_config.toList(),
-        ch_multiqc_logo.toList()
-    )
-    multiqc_report = MULTIQC.out.report.toList()
-
-     //
-    // MODULE: HISAT2_ALIGN
-    //
-    // TODO
-    HISAT2_ALIGN(
-        //INPUT_CHECK.out.reads,
-        //ch_genome_fasta
-    )
 
 
-    //
-    // MODULE: BWA_INDEX
-    //
-    /* BWA_INDEX(
-        ch_genome_fasta
+    BWA_INDEX(
+        ch_test_fasta
     )
     ch_index = BWA_INDEX.out.index
-    ch_versions = ch_versions.mix(BWA_INDEX.out.versions)
+    ch_versions = ch_versions.mix(BWA_INDEX.out.versions)*/
 
-    //
-    // MODULE: BWA_MEM
-    //
-    BWA_MEM(
-        INPUT_CHECK.out.reads,
-        ch_index,
-        "true"
-    )
-    ch_bam = BWA_MEM.out.bam
-    ch_versions = ch_versions.mix(BWA_MEM.out.versions)
-
-
-    //
-    // MODULE: BCFTOOLS_MPILEUP
-    //
-    BCFTOOLS_MPILEUP(
-        ch_bam,
-        ch_genome_fasta
-    )
-    ch_versions = ch_versions.mix(BCFTOOLS_MPILEUP.out.versions)*/
 }
 
 
