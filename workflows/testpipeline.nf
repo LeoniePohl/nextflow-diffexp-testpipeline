@@ -112,12 +112,16 @@ workflow TESTPIPELINE {
     //ch_genome_splicesites = HISAT2_EXTRACTSPLICESITES.out.splice_sites
 
 
-     HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } )//.index.map { it[1] }
+     HISAT2_BUILD (
+      ch_genome_fasta.map { [ [:], it ] },
+     ch_genome_gtf.map { [ [:], it ] },
+      ch_splicesites.map { [ [:], it ] }
+      )//.index.map { it[1] }
     ch_hisat2_index = HISAT2_BUILD.out.index
 
      HISAT2_ALIGN(
         INPUT_CHECK.out.reads,
-        ch_hisat2_index //.map { [ [:], it ] },
+        ch_hisat2_index, //.map { [ [:], it ] },
         ch_splicesites.map { [ [:], it ] }
    )
 
