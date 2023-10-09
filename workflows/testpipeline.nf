@@ -117,7 +117,7 @@ workflow TESTPIPELINE {
 
      HISAT2_ALIGN(
         INPUT_CHECK.out.reads,
-        ch_hisat2_index,
+        ch_hisat2_index.map { [ [:], it ] },
         ch_splicesites.map { [ [:], it ] }
    )
 
