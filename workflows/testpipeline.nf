@@ -20,6 +20,7 @@ ch_genome_fasta = Channel.fromPath(params.fasta) //.map { it -> [[id:it[0].simpl
 ch_genome_gtf = Channel.fromPath(params.gtf)//.map { it -> [[id:it[0].simpleName], it] }.collect()
 
 
+//hisat2_index = Channel.fromPath("/Users/leoniepohl/Desktop/results4/hisat2/hisat2/*.ht2")
 
 /*
 ch_genome_splicesites = Channel.fromPath("/Users/leoniepohl/Desktop/results2/hisat2/genes.splice_sites.txt").map { it -> [[id:it[0].simpleName], it] }.collect()
@@ -108,25 +109,40 @@ workflow TESTPIPELINE {
     // ! There is currently no tooling to help you write a sample sheet schema
 
     ch_splicesites = HISAT2_EXTRACTSPLICESITES ( ch_genome_gtf.map { [ [:], it ] } ).txt.map { it[1] }
-     //ch_genome_gtf
-    //ch_genome_splicesites = HISAT2_EXTRACTSPLICESITES.out.splice_sites
 
 
-     HISAT2_BUILD (
+    /* HISAT2_BUILD (
       ch_genome_fasta.map { [ [:], it ] },
      ch_genome_gtf.map { [ [:], it ] },
       ch_splicesites.map { [ [:], it ] }
       )//.index.map { it[1] }
-    ch_hisat2_index = HISAT2_BUILD.out.index
+    ch_hisat2_index = HISAT2_BUILD.out.index.map { it[1] } */
 
-     HISAT2_ALIGN(
+    ch_hisat2_index = HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } ).index.collect()
+
+    HISAT2_ALIGN(
         INPUT_CHECK.out.reads,
         ch_hisat2_index, //.map { [ [:], it ] },
+        //hisat2_index.map { [ [:], it ] },
         ch_splicesites.map { [ [:], it ] }
    )
 
 
+}
+
+// TODO define run_diffexp process
+/*process CALLSCRIPT {
+
+  script:
+  """
+  myscript.py
+  """
+}*/
+
+
 /*
+
+
 
 
     HISAT2_BUILD(
@@ -165,7 +181,7 @@ workflow TESTPIPELINE {
     ch_index = BWA_INDEX.out.index
     ch_versions = ch_versions.mix(BWA_INDEX.out.versions)*/
 
-}
+
 
 
 
