@@ -1,2 +1,5 @@
-sample,fastq_1,fastq_2
-sample_paired_end,reads/NA12878_75M_Agilent_1.merged.fastq.gz,reads/NA12878_75M_Agilent_2.merged.fastq.gz
+sample,fastq_1,fastq_2,strandedness,condition,replicate,batch
+ERR458493_1,reads/ERR458493.fastq.gz,,auto,Y1,1,A
+ERR458493_2,reads/ERR458493.fastq.gz,,auto,Y1,2,A
+ERR458494_1,reads/ERR458494.fastq.gz,,auto,Y2,1,A
+ERR458494_2,reads/ERR458494.fastq.gz,,auto,Y2,2,A

@@ -9,6 +9,11 @@ include { paramsSummaryLog; paramsSummaryMap } from 'plugin/nf-validation'
 def logo = NfcoreTemplate.logo(workflow, params.monochrome_logs)
 def citation = '\n' + WorkflowMain.citation(workflow) + '\n'
 def summary_params = paramsSummaryMap(workflow)
+def exp_meta = [ "id": params.study_name  ]
+if (params.input) { ch_input = Channel.of([ exp_meta, params.input ]) } else { exit 1, 'Input samplesheet not specified!' }
+
+
+
 
 // Print parameter summary log to screen
 log.info logo + paramsSummaryLog(workflow) + citation
@@ -19,19 +24,12 @@ ch_genome_fasta = Channel.fromPath(params.fasta) //.map { it -> [[id:it[0].simpl
 
 ch_genome_gtf = Channel.fromPath(params.gtf)//.map { it -> [[id:it[0].simpleName], it] }.collect()
 
+ch_contrasts_file = Channel.from([[exp_meta, file(params.contrasts)]])
+
+ch_control_features = [[],[]]
+
 
 //hisat2_index = Channel.fromPath("/Users/leoniepohl/Desktop/results4/hisat2/hisat2/*.ht2")
-
-/*
-ch_genome_splicesites = Channel.fromPath("/Users/leoniepohl/Desktop/results2/hisat2/genes.splice_sites.txt").map { it -> [[id:it[0].simpleName], it] }.collect()
-ch_test_fasta = Channel.fromPath(params.wfasta).map { it -> [[id:it[0].simpleName], it] }.collect()
-ch_test_genome = Channel.fromPath(params.wgtf).map { it -> [[id:it[0].simpleName], it] }.collect()
-ch_test_splice = Channel.fromPath(params.sgtf).map { it -> [[id:it[0].simpleName], it] }.collect() */
-
-
-
-
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     CONFIG FILES
@@ -53,6 +51,7 @@ ch_multiqc_custom_methods_description = params.multiqc_methods_description ? fil
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK } from '../subworkflows/local/input_check'
+include { DESEQ2 } from '../subworkflows/local/deseq2.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,12 +70,18 @@ include { BWA_INDEX                   } from '../modules/nf-core/bwa/index/main'
 include { HISAT2_ALIGN                } from '../modules/nf-core/hisat2/align/main'
 include { HISAT2_BUILD                } from '../modules/nf-core/hisat2/build/main'
 include { HISAT2_EXTRACTSPLICESITES } from '../modules/nf-core/hisat2/extractsplicesites/main'
+include { SUBREAD_FEATURECOUNTS } from '../modules/nf-core/subread/featurecounts/main'
+include { DESEQ2_DIFFERENTIAL } from '../modules/nf-core/deseq2/differential/main'
+include { SHINYNGS_VALIDATEFOMCOMPONENTS as VALIDATOR       } from '../modules/nf-core/shinyngs/validatefomcomponents/main'
+
 
 
 //
 // MODULE: Installed directly locally
 //
 include { BCFTOOLS_MPILEUP            } from '../modules/local/bcftools_mpileup.nf'
+include { SUBREAD_FLATTENGTF    } from '../modules/local/flatten_gtf.nf'
+include { COMBINE_FEATURECOUNTS    } from '../modules/local/combine_featurecounts.nf'
 
 
 
@@ -104,86 +109,69 @@ workflow TESTPIPELINE {
         file(params.input)
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    // TODO: OPTIONAL, you can use nf-validation plugin to create an input channel from the samplesheet with Channel.fromSamplesheet("input")
-    // See the documentation https://nextflow-io.github.io/nf-validation/samplesheets/fromSamplesheet/
-    // ! There is currently no tooling to help you write a sample sheet schema
-
-    ch_splicesites = HISAT2_EXTRACTSPLICESITES ( ch_genome_gtf.map { [ [:], it ] } ).txt.map { it[1] }
 
 
-    /* HISAT2_BUILD (
-      ch_genome_fasta.map { [ [:], it ] },
-     ch_genome_gtf.map { [ [:], it ] },
-      ch_splicesites.map { [ [:], it ] }
-      )//.index.map { it[1] }
-    ch_hisat2_index = HISAT2_BUILD.out.index.map { it[1] } */
+  /* FASTQC (
+        INPUT_CHECK.out.reads
+    )*/
 
-    ch_hisat2_index = HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } ).index.collect()
+   // create hisat2 index
+   ch_splicesites = HISAT2_EXTRACTSPLICESITES ( ch_genome_gtf.map { [ [:], it ] } ).txt.map { it[1] }
+   ch_hisat2_index = HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } ).index.collect()
 
+    // hisat2 alignment
     HISAT2_ALIGN(
         INPUT_CHECK.out.reads,
-        ch_hisat2_index, //.map { [ [:], it ] },
+        ch_hisat2_index,
         //hisat2_index.map { [ [:], it ] },
-        ch_splicesites.map { [ [:], it ] }
+        ch_splicesites.map { [ [:], it ] }.collect()
    )
+
+
+    // check gtf
+    SUBREAD_FLATTENGTF(
+        ch_genome_gtf
+    )
+
+    // subread feauture counts
+    //HISAT2_ALIGN.out.bam.view()
+    ch_feature_counts = HISAT2_ALIGN.out.bam.combine(ch_genome_gtf)
+
+
+    // [ meta, [ ip_bams ], saf/gtf ]
+   SUBREAD_FEATURECOUNTS(
+       ch_feature_counts
+       //ch_featurecounts
+    )
+
+
+    //SUBREAD_FEATURECOUNTS.out.counts.view()
+
+     SUBREAD_FEATURECOUNTS.out.counts.collect({it[1]}).view()
+
+    COMBINE_FEATURECOUNTS(
+          SUBREAD_FEATURECOUNTS.out.counts.collect({it[1]})
+
+    )
+
+    ch_in_raw = COMBINE_FEATURECOUNTS.out.tsv.map { [ exp_meta, it ] }
+   //.collect()
+    ch_in_raw.view()
+    ch_feature = COMBINE_FEATURECOUNTS.out.tsv2.map { [ exp_meta, it ] }
+
+
+
+// deseq2 subworkflow
+// input: all SUBREAD_FEATURECOUNTS *featureCounts.txt files combined to one matrix tsv with header: gene_id	sample1	sample2 ...
+   DESEQ2 (
+   COMBINE_FEATURECOUNTS.out.tsv,
+   ch_in_raw,
+   ch_feature
+   )
+
 
 
 }
-
-// TODO define run_diffexp process
-/*process CALLSCRIPT {
-
-  script:
-  """
-  myscript.py
-  """
-}*/
-
-
-/*
-
-
-
-
-    HISAT2_BUILD(
-        ch_genome_fasta,
-        ch_genome_gtf,
-        ch_genome_splicesites
-   )
-    ch_index = HISAT2_BUILD.out.index //.map { it -> [[id:it[0].simpleName], it] }.collect()
-
-    HISAT2_ALIGN(
-        INPUT_CHECK.out.reads,
-        ch_index,
-        ch_genome_splicesites
-   )
-
-*/
-
-
-    //
-    // MODULE: Run FastQC
-    //
-    /*FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
-
-
-
-    BWA_INDEX(
-        ch_test_fasta
-    )
-    ch_index = BWA_INDEX.out.index
-    ch_versions = ch_versions.mix(BWA_INDEX.out.versions)*/
-
-
-
-
 
 
 /*
