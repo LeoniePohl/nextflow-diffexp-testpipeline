@@ -9,6 +9,7 @@ process SUBREAD_FEATURECOUNTS {
 
     input:
     tuple val(meta), path(bams), path(annotation)
+    val feature_type
 
     output:
     tuple val(meta), path("*featureCounts.txt")        , emit: counts
@@ -38,6 +39,7 @@ process SUBREAD_FEATURECOUNTS {
         -F GTF \\
         -a $annotation \\
         -s $strandedness \\
+        -t $feature_type \\
         -B -C \\
         -O \\
         -f \\

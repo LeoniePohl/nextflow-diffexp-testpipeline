@@ -9,6 +9,7 @@ process SUBREAD_FLATTENGTF {
 
     input:
     path(annotation)
+    val feature_type
 
     output:
     path "annotation.saf", emit: saf
@@ -20,7 +21,7 @@ process SUBREAD_FLATTENGTF {
     script:
     def args = task.ext.args ?: ''
     """
-    flattenGTF $args -a $annotation -o annotation.saf
+    flattenGTF $args -a $annotation -o annotation.saf -t $feature_type
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

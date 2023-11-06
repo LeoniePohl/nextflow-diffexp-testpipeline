@@ -29,6 +29,9 @@ ch_contrasts_file = Channel.from([[exp_meta, file(params.contrasts)]])
 ch_control_features = [[],[]]
 
 
+
+
+
 //hisat2_index = Channel.fromPath("/Users/leoniepohl/Desktop/results4/hisat2/hisat2/*.ht2")
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,28 +113,28 @@ workflow TESTPIPELINE {
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
+     // check gtf
+    SUBREAD_FLATTENGTF(
+        ch_genome_gtf,
+        params.gtf_feature_type
+    )
 
-  /* FASTQC (
-        INPUT_CHECK.out.reads
-    )*/
+
+   FASTQC (
+       INPUT_CHECK.out.reads
+    )
 
    // create hisat2 index
    ch_splicesites = HISAT2_EXTRACTSPLICESITES ( ch_genome_gtf.map { [ [:], it ] } ).txt.map { it[1] }
    ch_hisat2_index = HISAT2_BUILD ( ch_genome_fasta.map { [ [:], it ] }, ch_genome_gtf.map { [ [:], it ] }, ch_splicesites.map { [ [:], it ] } ).index.collect()
 
     // hisat2 alignment
-    HISAT2_ALIGN(
+   HISAT2_ALIGN(
         INPUT_CHECK.out.reads,
         ch_hisat2_index,
         //hisat2_index.map { [ [:], it ] },
         ch_splicesites.map { [ [:], it ] }.collect()
    )
-
-
-    // check gtf
-    SUBREAD_FLATTENGTF(
-        ch_genome_gtf
-    )
 
     // subread feauture counts
     //HISAT2_ALIGN.out.bam.view()
@@ -140,7 +143,8 @@ workflow TESTPIPELINE {
 
     // [ meta, [ ip_bams ], saf/gtf ]
    SUBREAD_FEATURECOUNTS(
-       ch_feature_counts
+       ch_feature_counts,
+       params.gtf_feature_type
        //ch_featurecounts
     )
 
@@ -160,10 +164,10 @@ workflow TESTPIPELINE {
     ch_feature = COMBINE_FEATURECOUNTS.out.tsv2.map { [ exp_meta, it ] }
 
 
-
+// here:ch_control_features?? todo check
 // deseq2 subworkflow
 // input: all SUBREAD_FEATURECOUNTS *featureCounts.txt files combined to one matrix tsv with header: gene_id	sample1	sample2 ...
-   DESEQ2 (
+  DESEQ2 (
    COMBINE_FEATURECOUNTS.out.tsv,
    ch_in_raw,
    ch_feature

@@ -1,2 +1,14 @@
-sample,fastq_1,fastq_2,strandedness
-robrum.fastq,reads/1.fastq.gz,,auto
+sample,fastq_1,fastq_2,strandedness,condition,replicate,batch
+WT_AY_T_D,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_01/15.fastq.gz,,auto,WT_AY_T,D,A
+WT_AY_T_E,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_01/18.fastq.gz,,auto,WT_AY_T,E,A
+WT_AY_T_F,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_01/21.fastq.gz,,auto,WT_AY_T,F,A
+WT_AY_T_G,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_01/24.fastq.gz,,auto,WT_AY_T,G,A
+WT_AY_T1_A,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_01.fastq.gz,,auto,WT_AY_T1,A,A
+WT_AY_T1_B,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_02.fastq.gz,,auto,WT_AY_T1,B,A
+WT_AY_T1_C,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_03.fastq.gz,,auto,WT_AY_T1,C,A
+WT_AY_T2_A,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_04.fastq.gz,,auto,WT_AY_T2,A,A
+WT_AY_T2_B,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_05.fastq.gz,,auto,WT_AY_T2,B,A
+WT_AY_T2_C,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_06.fastq.gz,,auto,WT_AY_T2,C,A
+WT_AY_T3_A,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_07.fastq.gz,,auto,WT_AY_T3,A,A
+WT_AY_T3_B,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_08.fastq.gz,,auto,WT_AY_T3,B,A
+WT_AY_T3_C,/mnt/raidbio/biocluster/projekte/Corona2020/ideas_leonie_pohl/karel/rhodospirillum_rubrum/raw_fastq_run_02/sedl_09.fastq.gz,,auto,WT_AY_T3,C,A
