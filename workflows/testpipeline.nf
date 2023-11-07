@@ -161,6 +161,8 @@ workflow TESTPIPELINE {
     ch_in_raw = COMBINE_FEATURECOUNTS.out.tsv.map { [ exp_meta, it ] }
    //.collect()
     ch_in_raw.view()
+    ch_feature = COMBINE_FEATURECOUNTS.out.tsv2.map { [ exp_meta, it ] }
+
 
 
 
