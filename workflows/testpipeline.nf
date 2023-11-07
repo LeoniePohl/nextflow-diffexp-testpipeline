@@ -120,7 +120,7 @@ workflow TESTPIPELINE {
     )
 
 
-   FASTQC (
+   /*FASTQC (
        INPUT_CHECK.out.reads
     )
 
@@ -161,7 +161,7 @@ workflow TESTPIPELINE {
     ch_in_raw = COMBINE_FEATURECOUNTS.out.tsv.map { [ exp_meta, it ] }
    //.collect()
     ch_in_raw.view()
-    ch_feature = COMBINE_FEATURECOUNTS.out.tsv2.map { [ exp_meta, it ] }
+
 
 
 // here:ch_control_features?? todo check
@@ -171,6 +171,17 @@ workflow TESTPIPELINE {
    COMBINE_FEATURECOUNTS.out.tsv,
    ch_in_raw,
    ch_feature
+   )
+   */
+
+   //test deseq2 based on previously counts -> paths
+    ch_in_raw = path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv').map { [ exp_meta, it ] }
+    ch_feature = path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts2.tsv').map { [ exp_meta, it ] }
+
+   DESEQ2 (
+    path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv'),
+    ch_in_raw,
+    ch_feature
    )
 
 
