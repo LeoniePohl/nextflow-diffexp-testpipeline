@@ -120,7 +120,7 @@ workflow TESTPIPELINE {
     )
 
 
-   /*FASTQC (
+   FASTQC (
        INPUT_CHECK.out.reads
     )
 
@@ -167,13 +167,15 @@ workflow TESTPIPELINE {
 // here:ch_control_features?? todo check
 // deseq2 subworkflow
 // input: all SUBREAD_FEATURECOUNTS *featureCounts.txt files combined to one matrix tsv with header: gene_id	sample1	sample2 ...
+// reference - the base/ reference level for the comparison. If features have higher values in this group than target they will generate negative fold changes
+//target - the target/ non-reference level for the comparison. If features have higher values in this group than the reference they will generate positive fold changes
   DESEQ2 (
    COMBINE_FEATURECOUNTS.out.tsv,
    ch_in_raw,
    ch_feature
    )
-   */
-    customPath1 = Channel.fromPath('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv')
+
+   /* customPath1 = Channel.fromPath('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv')
     customPath2 = Channel.fromPath('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts2.tsv')
    //test deseq2 based on previously counts -> paths
     ch_in_raw = customPath1.map { [ exp_meta, it ] }
@@ -183,7 +185,7 @@ workflow TESTPIPELINE {
     customPath1,
     ch_in_raw,
     ch_feature
-   )
+   )*/
 
 
 
