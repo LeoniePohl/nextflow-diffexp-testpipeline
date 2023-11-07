@@ -173,10 +173,11 @@ workflow TESTPIPELINE {
    ch_feature
    )
    */
-
+    def customPath1 = '/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv'
+    def customPath2 = '/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts2.tsv'
    //test deseq2 based on previously counts -> paths
-    ch_in_raw = path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv').map { [ exp_meta, it ] }
-    ch_feature = path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts2.tsv').map { [ exp_meta, it ] }
+    ch_in_raw = customPath1.map { [ exp_meta, it ] }
+    ch_feature = customPath2.map { [ exp_meta, it ] }
 
    DESEQ2 (
     path('/home/p/pohll/Desktop/rubrum_nextflow/results/combine/merged_feature_counts.tsv'),
