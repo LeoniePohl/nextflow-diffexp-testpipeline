@@ -30,6 +30,7 @@ process SUBREAD_FEATURECOUNTS {
     } else if (meta.strandedness == 'reverse') {
         strandedness = 2
     }
+    // -f weg?
     // -t exon \\
     """
     featureCounts \\
